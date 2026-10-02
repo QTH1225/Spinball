@@ -1,0 +1,23 @@
+{
+  "dataset_name": "TT3D evaluation ground-truth sample",
+  "source_repository": "cogsys-tuebingen/tt3d",
+  "source_file": "data/evaluation/3D_gt/001.csv",
+  "source_url": "https://raw.githubusercontent.com/cogsys-tuebingen/tt3d/main/data/evaluation/3D_gt/001.csv",
+  "accessed_on": "2026-10-02",
+  "local_file": "data/public_tt3d_sample.csv",
+  "record_count": 75,
+  "original_columns": ["Timestamp", "X", "Y", "Z"],
+  "exported_columns": ["time_s", "x_m", "y_m"],
+  "mapping": {
+    "time_s": "Timestamp",
+    "x_m": "X",
+    "y_m": "Z",
+    "discarded": ["Y"]
+  },
+  "processing": [
+    "保留原始时间戳与 X、Z 数值，未对轨迹做平滑或拟合。",
+    "网页 parseCSV 会将第一帧平移到 x=0、y=1.2 m。",
+    "该轨迹包含反弹前后的点，不能被当作单一自由飞行过程的严格验证集。"
+  ],
+  "provenance_note": "公开仓库样例；不是本团队自行测量。正式提交或公开发布前，应再次核对上游仓库的许可与竞赛材料使用要求。"
+}

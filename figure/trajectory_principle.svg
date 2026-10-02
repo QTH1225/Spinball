@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620">
+  <defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#eef7ef"/><stop offset="1" stop-color="#dcefe3"/></linearGradient><marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#173f35"/></marker><marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#f17e55"/></marker><marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#4a87ff"/></marker></defs>
+  <rect width="1200" height="620" rx="28" fill="url(#bg)"/>
+  <text x="65" y="70" fill="#173f35" font-family="Arial,Microsoft YaHei,sans-serif" font-size="30" font-weight="700">旋转球受到的三类主要作用</text>
+  <text x="67" y="103" fill="#70817b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="16">二维示意：速度方向、重力、空气阻力与马格努斯力共同决定轨迹</text>
+  <path d="M116 505 C270 478 408 340 525 305 S820 210 1076 145" fill="none" stroke="#4a87ff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M120 530 L1080 530" stroke="#91a49a" stroke-width="2"/><path d="M120 530 L120 140" stroke="#91a49a" stroke-width="2"/>
+  <text x="1080" y="558" fill="#70817b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="15">x</text><text x="97" y="145" fill="#70817b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="15">y</text>
+  <circle cx="520" cy="304" r="42" fill="#b9f7c4" stroke="#173f35" stroke-width="4"/>
+  <path d="M496 282 C518 260 536 266 547 292 M494 318 C517 337 538 331 548 306" fill="none" stroke="#173f35" stroke-width="4" stroke-linecap="round"/>
+  <line x1="520" y1="304" x2="650" y2="248" stroke="#173f35" stroke-width="5" marker-end="url(#arrowGreen)"/><text x="663" y="245" fill="#173f35" font-family="Arial,Microsoft YaHei,sans-serif" font-size="19" font-weight="700">v · 速度</text>
+  <line x1="520" y1="304" x2="520" y2="440" stroke="#f17e55" stroke-width="5" marker-end="url(#arrowOrange)"/><text x="535" y="435" fill="#f17e55" font-family="Arial,Microsoft YaHei,sans-serif" font-size="19" font-weight="700">mg · 重力</text>
+  <line x1="520" y1="304" x2="405" y2="355" stroke="#173f35" stroke-width="5" marker-end="url(#arrowGreen)"/><text x="275" y="375" fill="#173f35" font-family="Arial,Microsoft YaHei,sans-serif" font-size="19" font-weight="700">Fᴅ · 空气阻力</text>
+  <line x1="520" y1="304" x2="563" y2="184" stroke="#4a87ff" stroke-width="5" marker-end="url(#arrowBlue)"/><text x="582" y="182" fill="#4a87ff" font-family="Arial,Microsoft YaHei,sans-serif" font-size="19" font-weight="700">Fᴍ · 马格努斯力</text>
+  <path d="M470 240 C430 204 439 150 486 127" fill="none" stroke="#f17e55" stroke-width="4" stroke-dasharray="8 8" marker-end="url(#arrowOrange)"/><text x="318" y="136" fill="#f17e55" font-family="Arial,Microsoft YaHei,sans-serif" font-size="17">球面旋转改变周围气流</text>
+  <rect x="760" y="380" width="310" height="94" rx="15" fill="#ffffff" fill-opacity=".82" stroke="#dce7df"/>
+  <text x="790" y="415" fill="#173f35" font-family="Arial,Microsoft YaHei,sans-serif" font-size="18" font-weight="700">关键直觉</text>
+  <text x="790" y="445" fill="#70817b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="15">旋转越强，轨迹偏离无旋转基线越明显。</text>
+</svg>

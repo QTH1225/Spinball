@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430">
+  <defs><linearGradient id="pipebg" x1="0" x2="1" y1="0" y2="0"><stop stop-color="#173f35"/><stop offset="1" stop-color="#2d6a56"/></linearGradient><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#d9ff68"/></marker></defs>
+  <rect width="1200" height="430" rx="28" fill="#f4f7f2"/>
+  <rect x="38" y="35" width="1124" height="360" rx="22" fill="url(#pipebg)"/>
+  <text x="75" y="84" fill="#d9ff68" font-family="Arial,Microsoft YaHei,sans-serif" font-size="16" letter-spacing="2">AI + MECHANICS PIPELINE</text>
+  <text x="75" y="119" fill="#ffffff" font-family="Arial,Microsoft YaHei,sans-serif" font-size="28" font-weight="700">从一条轨迹，回到一组力学参数</text>
+  <g font-family="Arial,Microsoft YaHei,sans-serif">
+    <rect x="74" y="182" width="180" height="112" rx="15" fill="#ffffff" fill-opacity=".12" stroke="#b9f7c4" stroke-opacity=".5"/><text x="101" y="220" fill="#d9ff68" font-size="13">01</text><text x="101" y="253" fill="#ffffff" font-size="19" font-weight="700">轨迹输入</text><text x="101" y="278" fill="#b9cbc0" font-size="13">模拟 / CSV / 视频</text>
+    <rect x="306" y="182" width="180" height="112" rx="15" fill="#ffffff" fill-opacity=".12" stroke="#b9f7c4" stroke-opacity=".5"/><text x="333" y="220" fill="#d9ff68" font-size="13">02</text><text x="333" y="253" fill="#ffffff" font-size="19" font-weight="700">特征提取</text><text x="333" y="278" fill="#b9cbc0" font-size="13">距离 / 高度 / 时间</text>
+    <rect x="538" y="182" width="180" height="112" rx="15" fill="#d9ff68"/><text x="565" y="220" fill="#173f35" font-size="13">03</text><text x="565" y="253" fill="#173f35" font-size="19" font-weight="700">AI 反演</text><text x="565" y="278" fill="#345844" font-size="13">加权近邻回归</text>
+    <rect x="770" y="182" width="180" height="112" rx="15" fill="#ffffff" fill-opacity=".12" stroke="#b9f7c4" stroke-opacity=".5"/><text x="797" y="220" fill="#d9ff68" font-size="13">04</text><text x="797" y="253" fill="#ffffff" font-size="19" font-weight="700">力学回放</text><text x="797" y="278" fill="#b9cbc0" font-size="13">参数重新送入模型</text>
+    <rect x="1002" y="182" width="120" height="112" rx="15" fill="#ffffff" fill-opacity=".12" stroke="#b9f7c4" stroke-opacity=".5"/><text x="1028" y="220" fill="#d9ff68" font-size="13">05</text><text x="1028" y="253" fill="#ffffff" font-size="19" font-weight="700">验证</text><text x="1028" y="278" fill="#b9cbc0" font-size="13">误差</text>
+  </g>
+  <g stroke="#d9ff68" stroke-width="3" marker-end="url(#arrow)"><line x1="260" y1="238" x2="296" y2="238"/><line x1="492" y1="238" x2="528" y2="238"/><line x1="724" y1="238" x2="760" y2="238"/><line x1="956" y1="238" x2="992" y2="238"/></g>
+  <text x="75" y="349" fill="#b9cbc0" font-family="Arial,Microsoft YaHei,sans-serif" font-size="14">原则：AI 提出候选参数，物理模型负责解释和复核。</text>
+</svg>

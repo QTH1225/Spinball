@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>球为什么会拐弯？ | AI + 力学</title>
+  <meta name="description" content="基于 AI 视觉识别与力学建模的旋转球飞行轨迹交互系统">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="返回首页">
+      <span class="brand-mark">↗</span>
+      <span><strong>AI × MECHANICS</strong><small>力学创新创意竞赛 · 应用案例</small></span>
+    </a>
+    <nav class="nav-links" aria-label="页面导航">
+      <button class="nav-link active" data-target="simulator">模拟器</button>
+      <button class="nav-link" data-target="ai-section">AI 反演</button>
+      <button class="nav-link" data-target="validation">验证边界</button>
+      <button class="nav-link" data-target="complexity">复杂工况</button>
+      <button class="nav-link" data-target="method">方法说明</button>
+    </nav>
+    <div class="status-chip" id="statusChip"><span class="status-dot"></span><span id="statusText">模型已就绪</span></div>
+  </header>
+
+  <main id="top">
+    <section class="hero page-shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span>一个人人见过的力学问题</div>
+        <h1><span>球为什么</span><em>会拐弯？</em></h1>
+        <p class="hero-lede">旋转会改变球周围的气流。让我们把看不见的马格努斯力，变成一条可以亲手调出来的轨迹。</p>
+        <div class="hero-actions">
+          <button class="primary-button" id="heroStart">开始实验 <span>↗</span></button>
+          <a class="secondary-button" href="#method">先看原理 <span>↓</span></a>
+        </div>
+        <div class="hero-note"><span class="note-icon">✦</span><span>AI 从轨迹结果反推力学参数，不替代理论模型。</span></div>
+      </div>
+      <div class="hero-orbit" aria-hidden="true">
+        <div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div>
+        <div class="hero-ball"><span></span></div>
+        <div class="hero-label label-air">AIR FLOW</div>
+        <div class="hero-label label-spin">SPIN +</div>
+      </div>
+    </section>
+
+    <section class="experiment page-shell" id="simulator">
+      <div class="section-heading">
+        <div><span class="section-kicker">01 / INTERACTIVE LAB</span><h2>把旋转调出来</h2></div>
+        <p>只改变一个参数，观察三条轨迹如何分开。<br>这就是控制变量实验。</p>
+      </div>
+      <div class="lab-grid">
+        <aside class="control-panel panel">
+          <div class="panel-topline"><span class="panel-label">实验参数</span><span class="live-tag">LIVE</span></div>
+          <div class="quick-actions"><button class="ghost-button" id="resetButton">参数重置</button><button class="outline-button" id="animateButton"><span class="play-icon">▶</span>播放飞行过程</button></div>
+          <label class="select-label" for="ballType">球类预设</label>
+          <select id="ballType" class="select-control">
+            <option value="tennis">网球 · 57 g</option>
+            <option value="soccer">足球 · 430 g</option>
+            <option value="table">乒乓球 · 2.7 g</option>
+            <option value="sphere">光滑球 · Re 参考</option>
+          </select>
+          <div class="control-group">
+            <div class="control-head"><label for="speedRange">初速度</label><output id="speedValue">22.0 m/s</output></div>
+            <input id="speedRange" type="range" min="8" max="36" step="0.5" value="22">
+            <div class="range-hint"><span>慢</span><span>快</span></div>
+          </div>
+          <div class="control-group">
+            <div class="control-head"><label for="angleRange">发射角</label><output id="angleValue">18°</output></div>
+            <input id="angleRange" type="range" min="5" max="55" step="1" value="18">
+            <div class="range-hint"><span>平</span><span>高</span></div>
+          </div>
+          <div class="control-group">
+            <div class="control-head"><label for="spinRange">旋转速度</label><output id="spinValue">+1200 rpm</output></div>
+            <input id="spinRange" type="range" min="-2600" max="2600" step="100" value="1200">
+            <div class="range-hint"><span>下沉</span><span>上扬</span></div>
+          </div>
+          <div class="control-group compact-group">
+            <div class="control-head"><label for="windRange">水平风速</label><output id="windValue">0.0 m/s</output></div>
+            <input id="windRange" type="range" min="-6" max="6" step="0.5" value="0">
+          </div>
+          <div class="advanced-box">
+            <div class="advanced-heading"><span>复杂工况</span><span class="mode-pill">PHYSICS+</span></div>
+            <select id="physicsMode" class="select-control compact-select" aria-label="力学模型等级">
+              <option value="advanced">进阶模型 · 动态气动</option>
+              <option value="basic">基础模型 · 常系数</option>
+            </select>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="densityRange">空气密度</label><output id="densityValue">1.225 kg/m³</output></div>
+              <input id="densityRange" type="range" min="0.85" max="1.35" step="0.005" value="1.225">
+            </div>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="spinDecayRange">旋转衰减</label><output id="spinDecayValue">0.40 s⁻¹</output></div>
+              <input id="spinDecayRange" type="range" min="0" max="1.6" step="0.05" value="0.4">
+            </div>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="gustRange">阵风幅值</label><output id="gustValue">0.0 m/s</output></div>
+              <input id="gustRange" type="range" min="0" max="4" step="0.1" value="0">
+            </div>
+            <p class="advanced-note">进阶模型会根据瞬时相对速度更新 Re、Cd、旋转参数 S 和 Cl，并考虑旋转衰减与周期阵风。</p>
+          </div>
+          <div class="button-row"><button class="primary-button wide" id="runButton">运行轨迹 <span>↗</span></button></div>
+          <div class="control-foot"><span class="mini-pulse"></span><span>浏览器端实时计算 · dt = 0.008 s</span></div>
+        </aside>
+
+        <div class="stage-panel panel">
+          <div class="stage-head"><div><span class="panel-label">轨迹观测窗</span><h3 id="stageTitle">正旋转：升力抬高轨迹</h3></div><span class="coordinate-tag">x / y · m</span></div>
+          <div class="canvas-wrap"><canvas id="trajectoryCanvas" aria-label="球类飞行轨迹图"></canvas><div class="canvas-empty" id="canvasEmpty">拖动左侧参数，实时预览轨迹</div></div>
+          <div class="legend-row"><span><i class="legend-dot vacuum"></i>无空气</span><span><i class="legend-dot drag"></i>空气阻力</span><span><i class="legend-dot full"></i>阻力 + 旋转</span><span class="legend-current"><i class="legend-dot current"></i>当前飞行</span></div>
+          <div class="metric-grid"><div class="metric"><span>落点距离</span><strong id="rangeValue">—</strong><small>m</small></div><div class="metric"><span>最高点</span><strong id="heightValue">—</strong><small>m</small></div><div class="metric"><span>飞行时间</span><strong id="timeValue">—</strong><small>s</small></div><div class="metric accent-metric"><span>旋转抬升 ΔH</span><strong id="landingValue">—</strong><small>m</small></div></div>
+          <div class="diagnostic-grid"><div class="diagnostic-item"><span>Reynolds 数</span><strong id="reynoldsValue">—</strong><small>惯性 / 黏性</small></div><div class="diagnostic-item"><span>旋转参数 S</span><strong id="spinParameterValue">—</strong><small>Rω / U</small></div><div class="diagnostic-item"><span>升力系数 Cl</span><strong id="liftCoefficientValue">—</strong><small>横向气动力</small></div><div class="diagnostic-item"><span>阻力系数 Cd</span><strong id="dynamicCdValue">—</strong><small>球类预设 / 球形相关式</small></div><div class="diagnostic-item"><span>升阻力比</span><strong id="forceRatioValue">—</strong><small>Fm / Fd</small></div><div class="diagnostic-item"><span>浮力 / 重力</span><strong id="buoyancyValue">—</strong><small>轻质球影响</small></div></div>
+          <div class="physics-note" id="physicsNote">进阶模型将瞬时相对速度作为气动力计算基准。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section page-shell" id="ai-section">
+      <div class="section-heading"><div><span class="section-kicker">02 / AI INFERENCE</span><h2>让 AI 猜出看不见的参数</h2></div><p>输入可以是一条模拟轨迹，也可以是手机视频提取出的 CSV 坐标。<br>AI 给出猜测，力学模型负责复核。</p></div>
+      <div class="ai-grid">
+        <div class="ai-card panel">
+          <div class="ai-card-head"><span class="ai-spark">✦</span><div><span class="panel-label">轻量 AI 反演器</span><h3>轨迹 → 参数</h3></div><span class="model-badge">KNN REGRESSOR</span></div>
+          <p class="card-copy">模型从物理样本库中寻找最相似的轨迹特征，再估计阻力系数和旋转状态。点击后可看到完整的“识别—回放—比较”闭环。</p>
+          <div class="ai-action-row"><button class="primary-button" id="aiRunButton">反演当前轨迹 <span>✦</span></button><button class="ghost-button" id="usePublicDataButton">载入公开轨迹</button><button class="ghost-button" id="useDemoButton">载入示范数据</button></div>
+          <p class="data-source-note">公开样例：TT3D 仓库的 `3D_gt/001.csv`，取 X–Z 平面投影；原始 Y 深度坐标未参与反演。</p>
+          <div class="upload-row"><label class="upload-button" for="csvInput">上传轨迹 CSV</label><input id="csvInput" type="file" accept=".csv,text/csv"><span id="uploadName">尚未上传</span></div>
+          <div class="ai-result-grid"><div class="result-cell"><span>估计阻力系数 <b>Cd</b></span><strong id="aiCd">—</strong></div><div class="result-cell"><span>估计旋转</span><strong id="aiSpin">—</strong></div><div class="result-cell"><span>近邻相似度</span><strong id="aiConfidence">—</strong></div><div class="result-cell"><span>回放误差 RMSE</span><strong id="aiError">—</strong></div></div>
+          <p class="ai-message" id="aiMessage">等待一条轨迹。建议先运行右侧模拟器。</p>
+        </div>
+        <div class="replay-card panel"><div class="stage-head"><div><span class="panel-label">AI 回放</span><h3>它猜得像不像？</h3></div><span class="coordinate-tag">OBS / AI</span></div><div class="replay-wrap"><canvas id="aiReplayCanvas" aria-label="AI轨迹回放图"></canvas><div class="replay-empty" id="replayEmpty">反演后显示轨迹对比</div></div><div class="replay-legend"><span><i class="legend-dot observed"></i>输入轨迹</span><span><i class="legend-dot replay"></i>AI 参数回放</span></div></div>
+      </div>
+    </section>
+
+    <section class="validation page-shell" id="validation">
+      <div class="section-heading"><div><span class="section-kicker">03 / CHECK & LIMITS</span><h2>先验证，再相信</h2></div><p>AI 可以提出候选答案，但每一个结果都必须回到物理模型和边界条件。</p></div>
+      <div class="validation-grid validation-grid-primary"><div class="validation-card panel"><div class="validation-icon">⌁</div><div><span class="panel-label">解析解对照</span><h3>无阻力极限</h3><p>关闭空气阻力和旋转后，数值积分应退化为普通斜抛运动。</p></div><strong class="validation-number" id="analyticError">—<small> %</small></strong></div><div class="validation-card panel"><div class="validation-icon">◎</div><div><span class="panel-label">量纲检查</span><h3>单位链路</h3><p>位置 m、速度 m/s、质量 kg、力 N，所有输入在模型中统一换算。</p></div><strong class="validation-number valid-number" id="energyNote">READY</strong></div><div class="validation-card panel"><div class="validation-icon">△</div><div><span class="panel-label">模型边界</span><h3>知道它不能做什么</h3><p id="modelLimits">二维近似 · 恒定空气密度 · 无风基线</p></div><strong class="validation-number limit-number">2D</strong></div></div>
+      <div class="validation-grid validation-grid-secondary"><div class="validation-card panel"><div class="validation-icon">↔</div><div><span class="panel-label">步长敏感性</span><h3>dt 与 dt/2 对照</h3><p>比较两套 RK4 结果的轨迹 RMSE，检查离散时间步长对当前输出的影响。</p></div><strong class="validation-number" id="dtError">—</strong></div><div class="validation-card panel"><div class="validation-icon">≋</div><div><span class="panel-label">空气动力边界</span><h3>球类表面并非光滑球</h3><p>只有光滑参考球使用通用球形 Cd(Re) 相关式；球类预设 Cd 仍需针对绒毛、缝线和姿态实测校准。</p></div><strong class="validation-number limit-number">CAL</strong></div></div>
+    </section>
+
+    <section class="complexity page-shell" id="complexity">
+      <div class="section-heading"><div><span class="section-kicker">04 / COMPLEX CASES</span><h2>复杂情况下，力学如何失效又如何修正</h2></div><p>优秀案例不只展示“会拐弯”，还要回答：<br>换风、换密度、换转速之后，模型还可靠吗？</p></div>
+      <div class="complexity-panel panel">
+        <div class="case-intro"><span class="case-eyebrow">CASE STUDY SWITCHER</span><h3 id="caseTitle">静风基线 · 先把问题讲清楚</h3><p id="caseCopy">以恒定空气密度和无阵风为基线，比较重力、阻力与马格努斯力的相对贡献，再逐步打开复杂因素。</p><div class="case-buttons"><button class="case-button active" data-case="baseline">静风基线</button><button class="case-button" data-case="crosswind">横风扰动</button><button class="case-button" data-case="spinloss">旋转衰减</button><button class="case-button" data-case="density">低密度空气</button></div></div>
+        <div class="complexity-readout"><div class="readout-orbit"><div class="readout-core">Re<br><b id="caseRe">—</b></div><span class="orbit-label orbit-re">惯性</span><span class="orbit-label orbit-s">S = Rω/U</span></div><div class="case-facts"><div><span>主导变量</span><strong id="caseVariable">相对速度</strong></div><div><span>可观察结果</span><strong id="caseOutcome">轨迹弯曲</strong></div><div><span>验证问题</span><strong id="caseCheck">解析解 + 回放误差</strong></div></div></div>
+      </div>
+    </section>
+
+    <section class="method page-shell" id="method">
+      <div class="section-heading"><div><span class="section-kicker">05 / METHOD NOTES</span><h2>从力学到 AI，再回到力学</h2></div><p>不是让 AI 代替公式，而是让 AI 帮助我们从观测结果寻找参数。</p></div>
+      <div class="method-grid"><article class="method-step"><span>01</span><h3>建立模型</h3><p>用重力、空气阻力和马格努斯力描述球的加速度，采用 RK4 数值积分。</p></article><article class="method-step"><span>02</span><h3>生成样本</h3><p>改变初速度、发射角、阻力系数和旋转状态，形成可解释的物理样本库。</p></article><article class="method-step"><span>03</span><h3>AI 反演</h3><p>从轨迹提取特征，用归一化加权 KNN 估计参数，并给出置信度。</p></article><article class="method-step"><span>04</span><h3>回放验证</h3><p>把 AI 参数重新送入力学模型，比较输入轨迹和回放轨迹的误差。</p></article></div>
+      <div class="formula-strip"><span class="formula-label">CORE EQUATION</span><span class="formula">m · dv/dt = mg + F<sub>D</sub> + F<sub>M</sub></span><span class="formula-note">重力 + 阻力 + 马格努斯力</span></div>
+    </section>
+  </main>
+  <footer class="footer page-shell"><span>AI × Mechanics / 2026</span><span>一个可以被操作、验证和解释的力学案例</span><span>offline-ready</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
