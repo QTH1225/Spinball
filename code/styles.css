@@ -443,10 +443,15 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; }
 .hero-copy .eyebrow { font-family: var(--sans); font-size: clamp(14px, 1.35vw, 17px); font-weight: 600; letter-spacing: .06em; gap: 13px; }
 .hero-copy .text-link { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .02em; }
 .hero h1 { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; line-height: .91; }
+.hero-copy .eyebrow { white-space: nowrap; }
+.hero h1 > span, .hero h1 > em { white-space: nowrap; }
+.hero-actions .primary-button, .hero-actions .secondary-button { white-space: nowrap; }
+.method-step:first-child { padding-left: 25px; }
 
 @media (max-width: 560px) {
-  .hero-copy .eyebrow { font-size: 13px; gap: 10px; }
+  .hero-copy .eyebrow { font-size: 12px; gap: 8px; }
   .hero h1 { gap: 16px; }
+  .hero h1 > span, .hero h1 > em { white-space: nowrap; }
 }
 
 .hero-actions { max-width: 360px; gap: 16px; flex-wrap: wrap; }
@@ -461,8 +466,9 @@ h1, h2, h3 { font-family: var(--display); font-weight: 700; }
 .hero-orbit .hero-label { font-size: 12px; }
 
 @media (max-width: 560px) {
-  .hero-actions { gap: 10px; }
-  .hero-actions .primary-button, .hero-actions .secondary-button { min-width: 0; padding: 0 13px; font-size: 14px; }
+  .hero-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 10px; }
+  .hero-actions .primary-button, .hero-actions .secondary-button { width: 100%; min-width: 0; padding: 0 8px; font-size: 13px; white-space: nowrap; }
+  .hero-actions .secondary-button span { margin-left: 6px; }
   .hero-orbit .vector { gap: 8px; font-size: 12px; }
   .hero-orbit .vector b { font-size: 13px; }
   .hero-orbit .vector i { width: 54px; }
