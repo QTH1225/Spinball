@@ -1,0 +1,6 @@
+# Ignore plain-text files.
+*.txt
+
+# Ignore Markdown files except README files.
+*.md
+!README.md

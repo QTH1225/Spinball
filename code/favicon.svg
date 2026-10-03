@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">AI Mechanics</title>
+  <desc id="desc">A rotating ball following a curved trajectory</desc>
+  <rect width="64" height="64" rx="16" fill="#113c31"/>
+  <path d="M13 43c9-14 25-21 39-18" fill="none" stroke="#d9ff68" stroke-linecap="round" stroke-width="4"/>
+  <path d="m46 17 7 8-10 2" fill="none" stroke="#d9ff68" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+  <circle cx="24" cy="31" r="9" fill="#f17e55" stroke="#fff7ef" stroke-width="3"/>
+  <path d="M19 27c3 2 7 3 11 2" fill="none" stroke="#fff7ef" stroke-linecap="round" stroke-width="2"/>
+</svg>

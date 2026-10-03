@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>球为什么会拐弯？ | AI + 力学</title>
   <meta name="description" content="基于 AI 视觉识别与力学建模的旋转球飞行轨迹交互系统">
+  <link rel="icon" href="./favicon.svg?v=original-20261003" type="image/svg+xml">
+  <link rel="shortcut icon" href="./favicon.svg?v=original-20261003" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -61,14 +63,19 @@
             <option value="table">乒乓球 · 2.7 g</option>
             <option value="sphere">光滑球 · Re 参考</option>
           </select>
+          <label class="select-label dimension-label" for="spaceMode">观测维度</label>
+          <select id="spaceMode" class="select-control">
+            <option value="3d">三维空间 · 旋转轴可倾斜</option>
+            <option value="2d">二维基线 · 平面内运动</option>
+          </select>
           <div class="control-group">
             <div class="control-head"><label for="speedRange">初速度</label><output id="speedValue">22.0 m/s</output></div>
             <input id="speedRange" type="range" min="8" max="36" step="0.5" value="22">
             <div class="range-hint"><span>慢</span><span>快</span></div>
           </div>
           <div class="control-group">
-            <div class="control-head"><label for="angleRange">发射角</label><output id="angleValue">18°</output></div>
-            <input id="angleRange" type="range" min="5" max="55" step="1" value="18">
+            <div class="control-head"><label for="angleRange">发射角</label><output id="angleValue">45°</output></div>
+            <input id="angleRange" type="range" min="5" max="55" step="1" value="45">
             <div class="range-hint"><span>平</span><span>高</span></div>
           </div>
           <div class="control-group">
@@ -98,18 +105,36 @@
               <div class="control-head"><label for="gustRange">阵风幅值</label><output id="gustValue">0.0 m/s</output></div>
               <input id="gustRange" type="range" min="0" max="4" step="0.1" value="0">
             </div>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="axisTiltRange">旋转轴倾角</label><output id="axisTiltValue">35°</output></div>
+              <input id="axisTiltRange" type="range" min="0" max="90" step="1" value="35">
+            </div>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="axisAzimuthRange">旋转轴方位</label><output id="axisAzimuthValue">90°</output></div>
+              <input id="axisAzimuthRange" type="range" min="-180" max="180" step="1" value="90">
+            </div>
+            <div class="control-group advanced-control">
+              <div class="control-head"><label for="lateralWindRange">侧向风速</label><output id="lateralWindValue">0.0 m/s</output></div>
+              <input id="lateralWindRange" type="range" min="-6" max="6" step="0.5" value="0">
+            </div>
             <p class="advanced-note">进阶模型会根据瞬时相对速度更新 Re、Cd、旋转参数 S 和 Cl，并考虑旋转衰减与周期阵风。</p>
           </div>
-          <div class="button-row"><button class="primary-button wide" id="runButton">运行轨迹 <span>↗</span></button></div>
           <div class="control-foot"><span class="mini-pulse"></span><span>浏览器端实时计算 · dt = 0.008 s</span></div>
         </aside>
 
         <div class="stage-panel panel">
-          <div class="stage-head"><div><span class="panel-label">轨迹观测窗</span><h3 id="stageTitle">正旋转：升力抬高轨迹</h3></div><span class="coordinate-tag">x / y · m</span></div>
+          <div class="stage-head"><div><span class="panel-label">轨迹观测窗</span><h3 id="stageTitle">三维空间：旋转轴改变轨迹</h3></div><span class="coordinate-tag" id="coordinateTag">x / y / z · m</span></div>
           <div class="canvas-wrap"><canvas id="trajectoryCanvas" aria-label="球类飞行轨迹图"></canvas><div class="canvas-empty" id="canvasEmpty">拖动左侧参数，实时预览轨迹</div></div>
           <div class="legend-row"><span><i class="legend-dot vacuum"></i>无空气</span><span><i class="legend-dot drag"></i>空气阻力</span><span><i class="legend-dot full"></i>阻力 + 旋转</span><span class="legend-current"><i class="legend-dot current"></i>当前飞行</span></div>
-          <div class="metric-grid"><div class="metric"><span>落点距离</span><strong id="rangeValue">—</strong><small>m</small></div><div class="metric"><span>最高点</span><strong id="heightValue">—</strong><small>m</small></div><div class="metric"><span>飞行时间</span><strong id="timeValue">—</strong><small>s</small></div><div class="metric accent-metric"><span>旋转抬升 ΔH</span><strong id="landingValue">—</strong><small>m</small></div></div>
-          <div class="diagnostic-grid"><div class="diagnostic-item"><span>Reynolds 数</span><strong id="reynoldsValue">—</strong><small>惯性 / 黏性</small></div><div class="diagnostic-item"><span>旋转参数 S</span><strong id="spinParameterValue">—</strong><small>Rω / U</small></div><div class="diagnostic-item"><span>升力系数 Cl</span><strong id="liftCoefficientValue">—</strong><small>横向气动力</small></div><div class="diagnostic-item"><span>阻力系数 Cd</span><strong id="dynamicCdValue">—</strong><small>球类预设 / 球形相关式</small></div><div class="diagnostic-item"><span>升阻力比</span><strong id="forceRatioValue">—</strong><small>Fm / Fd</small></div><div class="diagnostic-item"><span>浮力 / 重力</span><strong id="buoyancyValue">—</strong><small>轻质球影响</small></div></div>
+          <div class="metric-grid"><div class="metric"><span>落点距离</span><strong id="rangeValue">—</strong><small>m</small></div><div class="metric"><span>最高点</span><strong id="heightValue">—</strong><small>m</small></div><div class="metric"><span>飞行时间</span><strong id="timeValue">—</strong><small>s</small></div><div class="metric"><span>横向偏移</span><strong id="sideValue">—</strong><small>m</small></div><div class="metric accent-metric"><span>旋转抬升 ΔH</span><strong id="landingValue">—</strong><small>m</small></div></div>
+                    <div class="diagnostic-grid">
+            <div class="diagnostic-item"><span>Reynolds 数</span><strong id="reynoldsValue">—</strong><small>惯性力与黏性力的比值，判断绕流状态。</small></div>
+            <div class="diagnostic-item"><span>旋转参数 S</span><strong id="spinParameterValue">—</strong><small>Rω / U，表示旋转相对来流的强弱。</small></div>
+            <div class="diagnostic-item"><span>升力系数 Cl</span><strong id="liftCoefficientValue">—</strong><small>升力相对动压的强度，决定轨迹抬升趋势。</small></div>
+            <div class="diagnostic-item"><span>阻力系数 Cd</span><strong id="dynamicCdValue">—</strong><small>阻力相对动压的强度，反映迎风阻滞。</small></div>
+            <div class="diagnostic-item"><span>升阻力比</span><strong id="forceRatioValue">—</strong><small>马格努斯力与阻力之比，关联侧向偏移。</small></div>
+            <div class="diagnostic-item"><span>浮力 / 重力</span><strong id="buoyancyValue">—</strong><small>浮力占重力的比例，轻质球更敏感。</small></div>
+          </div>
           <div class="physics-note" id="physicsNote">进阶模型将瞬时相对速度作为气动力计算基准。</div>
         </div>
       </div>
@@ -121,20 +146,20 @@
         <div class="ai-card panel">
           <div class="ai-card-head"><span class="ai-spark">✦</span><div><span class="panel-label">轻量 AI 反演器</span><h3>轨迹 → 参数</h3></div><span class="model-badge">KNN REGRESSOR</span></div>
           <p class="card-copy">模型从物理样本库中寻找最相似的轨迹特征，再估计阻力系数和旋转状态。点击后可看到完整的“识别—回放—比较”闭环。</p>
-          <div class="ai-action-row"><button class="primary-button" id="aiRunButton">反演当前轨迹 <span>✦</span></button><button class="ghost-button" id="usePublicDataButton">载入公开轨迹</button><button class="ghost-button" id="useDemoButton">载入示范数据</button></div>
-          <p class="data-source-note">公开样例：TT3D 仓库的 `3D_gt/001.csv`，取 X–Z 平面投影；原始 Y 深度坐标未参与反演。</p>
-          <div class="upload-row"><label class="upload-button" for="csvInput">上传轨迹 CSV</label><input id="csvInput" type="file" accept=".csv,text/csv"><span id="uploadName">尚未上传</span></div>
-          <div class="ai-result-grid"><div class="result-cell"><span>估计阻力系数 <b>Cd</b></span><strong id="aiCd">—</strong></div><div class="result-cell"><span>估计旋转</span><strong id="aiSpin">—</strong></div><div class="result-cell"><span>近邻相似度</span><strong id="aiConfidence">—</strong></div><div class="result-cell"><span>回放误差 RMSE</span><strong id="aiError">—</strong></div></div>
-          <p class="ai-message" id="aiMessage">等待一条轨迹。建议先运行右侧模拟器。</p>
+          <div class="ai-action-row"><button class="primary-button ai-source-button" data-source="current" aria-pressed="true" id="aiRunButton">反演当前轨迹 <span>✦</span></button><button class="ghost-button ai-source-button" data-source="upload" aria-pressed="false" id="useUploadDataButton">上传实验轨迹</button><button class="ghost-button ai-source-button" data-source="demo" aria-pressed="false" id="useDemoButton">载入示范数据</button></div>
+          <p class="data-source-note">上传或载入示范 CSV 后，系统以当前球种、风场和空气参数为前提，将首点平移到原点；从第二个点开始，首次回到 y≤0 时截断，只研究自由飞行段，再进行二维动力学拟合。格式：`time_s,x_m,y_m`，单位为 s、m、m；像素坐标须先标定为米。</p>
+          <div class="upload-row"><label class="upload-button" for="csvInput">选择 CSV 文件</label><input id="csvInput" type="file" accept=".csv,text/csv"><span id="uploadName">当前模拟轨迹 · 实时参数</span></div>
+          <div class="ai-result-grid"><div class="result-cell"><span>估计初速度</span><strong id="aiSpeed">—</strong></div><div class="result-cell"><span>估计发射角</span><strong id="aiAngle">—</strong></div><div class="result-cell"><span>估计阻力系数 <b>Cd</b></span><strong id="aiCd">—</strong></div><div class="result-cell"><span>估计旋转</span><strong id="aiSpin">—</strong></div><div class="result-cell"><span id="aiConfidenceLabel">拟合质量</span><strong id="aiConfidence">—</strong></div><div class="result-cell"><span>回放误差 RMSE</span><strong id="aiError">—</strong></div></div>
+          <p class="ai-message" id="aiMessage">等待一条轨迹。左侧参数会实时生成可供反演的空间轨迹。</p>
         </div>
-        <div class="replay-card panel"><div class="stage-head"><div><span class="panel-label">AI 回放</span><h3>它猜得像不像？</h3></div><span class="coordinate-tag">OBS / AI</span></div><div class="replay-wrap"><canvas id="aiReplayCanvas" aria-label="AI轨迹回放图"></canvas><div class="replay-empty" id="replayEmpty">反演后显示轨迹对比</div></div><div class="replay-legend"><span><i class="legend-dot observed"></i>输入轨迹</span><span><i class="legend-dot replay"></i>AI 参数回放</span></div></div>
+        <div class="replay-card panel"><div class="stage-head"><div><span class="panel-label">AI 回放</span><h3>它猜得像不像？</h3></div><span class="coordinate-tag">OBS / AI</span></div><div class="replay-wrap"><canvas id="aiReplayCanvas" aria-label="AI轨迹回放图"></canvas><div class="replay-empty" id="replayEmpty">反演后显示轨迹对比</div></div><div class="replay-legend"><span><i class="legend-dot observed"></i>输入轨迹</span><span><i class="legend-dot replay"></i>AI 参数回放</span></div><p class="fit-note" id="fitNote">反演后显示拟合说明。</p></div>
       </div>
     </section>
 
     <section class="validation page-shell" id="validation">
       <div class="section-heading"><div><span class="section-kicker">03 / CHECK & LIMITS</span><h2>先验证，再相信</h2></div><p>AI 可以提出候选答案，但每一个结果都必须回到物理模型和边界条件。</p></div>
-      <div class="validation-grid validation-grid-primary"><div class="validation-card panel"><div class="validation-icon">⌁</div><div><span class="panel-label">解析解对照</span><h3>无阻力极限</h3><p>关闭空气阻力和旋转后，数值积分应退化为普通斜抛运动。</p></div><strong class="validation-number" id="analyticError">—<small> %</small></strong></div><div class="validation-card panel"><div class="validation-icon">◎</div><div><span class="panel-label">量纲检查</span><h3>单位链路</h3><p>位置 m、速度 m/s、质量 kg、力 N，所有输入在模型中统一换算。</p></div><strong class="validation-number valid-number" id="energyNote">READY</strong></div><div class="validation-card panel"><div class="validation-icon">△</div><div><span class="panel-label">模型边界</span><h3>知道它不能做什么</h3><p id="modelLimits">二维近似 · 恒定空气密度 · 无风基线</p></div><strong class="validation-number limit-number">2D</strong></div></div>
-      <div class="validation-grid validation-grid-secondary"><div class="validation-card panel"><div class="validation-icon">↔</div><div><span class="panel-label">步长敏感性</span><h3>dt 与 dt/2 对照</h3><p>比较两套 RK4 结果的轨迹 RMSE，检查离散时间步长对当前输出的影响。</p></div><strong class="validation-number" id="dtError">—</strong></div><div class="validation-card panel"><div class="validation-icon">≋</div><div><span class="panel-label">空气动力边界</span><h3>球类表面并非光滑球</h3><p>只有光滑参考球使用通用球形 Cd(Re) 相关式；球类预设 Cd 仍需针对绒毛、缝线和姿态实测校准。</p></div><strong class="validation-number limit-number">CAL</strong></div></div>
+      <div class="validation-grid validation-grid-primary"><div class="validation-card panel"><div class="validation-icon">⌁</div><div><span class="panel-label">解析解对照</span><h3>无阻力极限</h3><p>关闭空气阻力和旋转后，数值积分应退化为普通斜抛运动。</p></div><strong class="validation-number valid-number validation-status" id="analyticError">待检查</strong></div><div class="validation-card panel"><div class="validation-icon">◎</div><div><span class="panel-label">量纲检查</span><h3>单位链路</h3><p>位置 m、速度 m/s、质量 kg、力 N，所有输入在模型中统一换算。</p></div><strong class="validation-number valid-number validation-status" id="energyNote">已检查</strong></div><div class="validation-card panel"><div class="validation-icon">△</div><div><span class="panel-label">模型边界</span><h3>知道它不能做什么</h3><p id="modelLimits">二维近似 · 恒定空气密度 · 无风基线</p></div><strong class="validation-number limit-number validation-status">边界说明</strong></div></div>
+      <div class="validation-grid validation-grid-secondary"><div class="validation-card panel"><div class="validation-icon">↔</div><div><span class="panel-label">步长敏感性</span><h3>dt 与 dt/2 对照</h3><p>比较两套 RK4 结果的轨迹 RMSE，检查离散时间步长对当前输出的影响。</p></div><strong class="validation-number valid-number validation-status" id="dtError">待检查</strong></div><div class="validation-card panel"><div class="validation-icon">≋</div><div><span class="panel-label">空气动力边界</span><h3>球类表面并非光滑球</h3><p>只有光滑参考球使用通用球形 Cd(Re) 相关式；球类预设 Cd 仍需针对绒毛、缝线和姿态实测校准。</p></div><strong class="validation-number limit-number validation-status">需要校准</strong></div></div>
     </section>
 
     <section class="complexity page-shell" id="complexity">
@@ -148,10 +173,15 @@
     <section class="method page-shell" id="method">
       <div class="section-heading"><div><span class="section-kicker">05 / METHOD NOTES</span><h2>从力学到 AI，再回到力学</h2></div><p>不是让 AI 代替公式，而是让 AI 帮助我们从观测结果寻找参数。</p></div>
       <div class="method-grid"><article class="method-step"><span>01</span><h3>建立模型</h3><p>用重力、空气阻力和马格努斯力描述球的加速度，采用 RK4 数值积分。</p></article><article class="method-step"><span>02</span><h3>生成样本</h3><p>改变初速度、发射角、阻力系数和旋转状态，形成可解释的物理样本库。</p></article><article class="method-step"><span>03</span><h3>AI 反演</h3><p>从轨迹提取特征，用归一化加权 KNN 估计参数，并给出置信度。</p></article><article class="method-step"><span>04</span><h3>回放验证</h3><p>把 AI 参数重新送入力学模型，比较输入轨迹和回放轨迹的误差。</p></article></div>
-      <div class="formula-strip"><span class="formula-label">CORE EQUATION</span><span class="formula">m · dv/dt = mg + F<sub>D</sub> + F<sub>M</sub></span><span class="formula-note">重力 + 阻力 + 马格努斯力</span></div>
+      <div class="formula-board">
+        <article class="formula-card"><span class="formula-label">TOTAL DYNAMICS</span><div class="formula formula-tex">m · d<strong>v</strong>/dt = m<strong>g</strong> + <strong>F</strong><sub>D</sub> + <strong>F</strong><sub>M</sub></div><p>总加速度由重力、阻力和马格努斯力共同决定。</p></article>
+        <article class="formula-card"><span class="formula-label">DRAG FORCE</span><div class="formula formula-tex"><strong>F</strong><sub>D</sub> = −½ρC<sub>D</sub>A|<strong>v</strong><sub>rel</sub>|<strong>v</strong><sub>rel</sub></div><p>阻力方向始终与球相对空气的运动方向相反。</p></article>
+        <article class="formula-card"><span class="formula-label">MAGNUS FORCE</span><div class="formula formula-tex">|<strong>F</strong><sub>M</sub>| = ½ρC<sub>L</sub>A|<strong>v</strong><sub>rel</sub>|²</div><p>旋转改变周围气流，使力垂直于相对速度并抬升或压低轨迹。</p></article>
+        <article class="formula-card"><span class="formula-label">FLOW PARAMETERS</span><div class="formula formula-tex formula-stack"><span>Re = ρU<sub>rel</sub>D/μ</span><span>S = Rω/U<sub>rel</sub></span></div><p>Re 衡量惯性与黏性的竞争，S 描述旋转相对强度。</p></article>
+      </div>
     </section>
   </main>
-  <footer class="footer page-shell"><span>AI × Mechanics / 2026</span><span>一个可以被操作、验证和解释的力学案例</span><span>offline-ready</span></footer>
+  <footer class="footer page-shell"><span>AI × Mechanics / 2026</span><span>一个可以被操作、验证和解释的力学案例</span></footer>
   <script src="app.js"></script>
 </body>
 </html>
