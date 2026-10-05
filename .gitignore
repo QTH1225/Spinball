@@ -4,3 +4,4 @@
 # Ignore Markdown files except README files.
 *.md
 !README.md
+*.docx
